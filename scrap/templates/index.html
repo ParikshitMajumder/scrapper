@@ -8,6 +8,10 @@
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
     <title>Price Tracker Web App</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
 </head>
 
 <body>
@@ -15,34 +19,50 @@
 
     <nav class="navbar bg-body-tertiary sticky-top bg-primary">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Price Tracker</span>
+            <span class="navbar-brand mb-0 h1 ">Price Tracker</span>
         </div>
     </nav>
 
     <div class="container my-4">
-        <h3> Please fill out the below form.</h3>
-        <form>
+        <h3> Please fill out this form.</h3>
+        
+        {% for message in messages%}
+        <div class="alert alert-danger alert-dismissible fade show animate__animated animate__shakeX" role="alert">
+            <strong>{{message}}</strong> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        
+        {% endfor %}
 
+
+
+        <form action="" method="post">
+            {% csrf_token %}
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="text" class="form-control" name="url" id="floatingInput" placeholder="url" required>
 
                 <label for="floatingInput">Enter The Link to Scrap data</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Enter Class name To Scrap</label>
+                <input type="text" class="form-control" name="name_class" id="floatingPassword" placeholder="nameid" required>
+                <label for="floatingPassword">Enter Classname of Product To Scrap</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" class="form-control" name="price_class" id="floatingPassword" placeholder="priceid" required>
+                <label for="floatingPassword">Enter Classname of Pricefield To Scrap</label>
             </div>
             <div class="container my-5">
 
             </div>
 
 
-            <label for="exampleInputPassword1" class="form-label">Only below websites are supported for now.</label>
-            <select class="form-select" aria-label="Default select example">
+            <label for="exampleInputPassword1" class="form-label">Only these websites are supported for now.</label>
+            <select class="form-select" aria-label="Default select example" name="website">
                 <option selected>Select.</option>
-                <option value="1">Amazon</option>
-                <option value="2">Flipkart</option>
-                <option value="3">Reliance Digital</option>
+                <option value="Amazon">Amazon</option>
+                <option value="Flipkart">Flipkart</option>
+                <option value="Reliance">Reliance Digital</option>
+                <option value="other">Other</option>
             </select>
 
             <div class="col-12 my-4">
@@ -52,7 +72,7 @@
         </form>
 
         <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-            aria-controls="offcanvasBottom">Find how to find the class</button>
+            aria-controls="offcanvasBottom">Find out how to find the Classname</button>
 
         <div class="offcanvas offcanvas-bottom " tabindex="-1" id="offcanvasBottom"
             aria-labelledby="offcanvasBottomLabel">
@@ -62,7 +82,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body medium">
-                Step1 : Right click on the body of name element you want to scrap for.<br>
+                Step1 : Right click on the body of HTML element you want to scrap for.<br>
                 Step2 : Click inspect.<br>
                 Step3 : In the elements tab you can see class="class_name"<br>
                 Thats It !!
@@ -80,33 +100,53 @@
             <thead>
                 <tr>
                     <th scope="col">Serial</th>
-                    <th scope="col">URL</th>
+
                     <th scope="col">Product Name</th>
                     <th scope="col">Product Price</th>
+                    <th scope="col">website</th>
                     <th scope="col">Date</th>
                 </tr>
             </thead>
             <tbody>
+                {% for i in data %}
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
+
+                    <th scope="row">{{i.id}}</th>
+                    <td>{{i.Product_name}}</td>
+
+                    <td>{{i.Price}}</td>
+                    <td>{{i.website_name}}</td>
+                    <td>{{i.date}}</td>
                 </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container my-6">
+        <h3> Current Products</h3>
+
+        <table class="table ">
+            <thead>
                 <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
+                    <th scope="col">Serial</th>
+
+                    <th scope="col">Product Name</th>
+                    
                 </tr>
+            </thead>
+            <tbody>
+                {% for j in names %}
                 <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
+
+                    <th scope="row">{{j.id}}</th>
+                    <td>{{j.Name}}</td>
+
+                    
                 </tr>
+                {% endfor %}
+
             </tbody>
         </table>
     </div>

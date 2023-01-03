@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'scrap.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'scalper_data',
+        'NAME': 'scrapper_data',
         'USER' : 'root',
         'PASSWORD' : '2wsx@WSX',
         'HOST' : 'localhost',
